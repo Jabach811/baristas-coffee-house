@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Barista's — Coffee House in Downtown Tracy, CA</title>
+<meta name="description" content="Barista's Coffee House at 112 W 10th Street in downtown Tracy — espresso, 27 blended drinks, panini and bagels made to order. 4.6 stars from 550+ reviews. Open 7am Monday through Saturday.">
+<link rel="canonical" href="https://baristastracy.com/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CafeOrCoffeeShop",
+  "name": "Barista's Coffee House",
+  "alternateName": "Barista's",
+  "slogan": "Good Friends, Great Coffee",
+  "url": "https://baristastracy.com/",
+  "telephone": "+1-209-830-6050",
+  "priceRange": "$",
+  "servesCuisine": ["Coffee", "Espresso", "Sandwiches", "Bagels"],
+  "image": "https://baristastracy.com/images/storefront.jpg",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "112 W 10th St",
+    "addressLocality": "Tracy",
+    "addressRegion": "CA",
+    "postalCode": "95376",
+    "addressCountry": "US"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 37.7382,
+    "longitude": -121.4269
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "07:00",
+      "closes": "16:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": "Saturday",
+      "opens": "07:00",
+      "closes": "15:00"
+    }
+  ],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.6",
+    "reviewCount": "550"
+  },
+  "hasMenu": "https://baristastracy.com/menu.html"
+}
+</script>
+</head>
+<body>
+
+<nav class="global-nav">
+  <div class="wrap">
+    <a class="brandmark" href="index.html">Barista's</a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-links">Menu</button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="#visit">Visit</a></li>
+      <li><a href="#visit">Hours</a></li>
+      <li><a href="https://order.online/store/baristas-coffee-house-tracy-1250787">Order ahead</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="video-hero">
+  <h1 class="visually-hidden">Barista's — Good Friends, Great Coffee. A downtown Tracy coffee house.</h1>
+  <div class="vh-stage" id="vh-stage">
+    <video id="vh-vid" src="assets/Baristas Hero Vid.mp4" muted autoplay playsinline preload="auto"></video>
+    <img class="vh-logo" src="assets/hero-logo-clean.png" alt="Barista's — Good Friends, Great Coffee">
+    <div class="vh-cta">
+      <a class="btn" href="https://order.online/store/baristas-coffee-house-tracy-1250787">Order ahead</a>
+      <a class="btn btn-ghost" href="menu.html">See the menu</a>
+    </div>
+  </div>
+</header>
+<style>
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .video-hero {
+    min-height: calc(100svh - 44px);
+    background: #fbf2e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .vh-stage {
+    position: relative;
+    width: min(100vw, calc((100svh - 44px) * 1.7556));
+    aspect-ratio: 1264 / 720;
+  }
+  .vh-stage video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent), linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent), linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent);
+    mask-composite: intersect;
+  }
+  .vh-logo {
+    position: absolute;
+    left: 6%;
+    top: 9%;
+    width: 41%;
+    mix-blend-mode: multiply;
+    opacity: 0;
+    transition: opacity 1.4s ease;
+  }
+  .vh-cta {
+    position: absolute;
+    left: 6%;
+    top: 52%;
+    width: 41%;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity 0.7s ease 1.2s, transform 0.7s ease 1.2s, visibility 0s 1.2s;
+  }
+  .vh-revealed .vh-logo { opacity: 1; }
+  .vh-revealed .vh-cta {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .vh-instant .vh-logo,
+  .vh-instant .vh-cta { transition: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .vh-logo, .vh-cta { transition: none; }
+  }
+  @media (max-width: 620px) {
+    .vh-cta {
+      top: 100%;
+      left: 0;
+      width: 100%;
+      margin-top: 20px;
+    }
+  }
+</style>
+<script>
+(() => {
+  const vid = document.getElementById("vh-vid");
+  const stage = document.getElementById("vh-stage");
+
+  const reveal = () => {
+    stage.classList.add("vh-revealed");
+    sessionStorage.setItem("heroSeen", "1");
+  };
+  const showLastFrame = () => {
+    vid.pause();
+    if (vid.readyState >= 1) vid.currentTime = vid.duration;
+    else vid.addEventListener("loadedmetadata", () => { vid.currentTime = vid.duration; }, { once: true });
+  };
+
+  const skipIntro = sessionStorage.getItem("heroSeen")
+    || matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (skipIntro) {
+    stage.classList.add("vh-instant");
+    showLastFrame();
+    reveal();
+  } else {
+    vid.addEventListener("ended", () => setTimeout(reveal, 300));
+    vid.addEventListener("error", reveal);
+    vid.play().catch(reveal);
+    const failsafe = setTimeout(reveal, 8000);
+    vid.addEventListener("ended", () => clearTimeout(failsafe));
+    stage.addEventListener("pointerdown", () => {
+      if (stage.classList.contains("vh-revealed")) return;
+      clearTimeout(failsafe);
+      showLastFrame();
+      reveal();
+    });
+  }
+})();
+</script>
+
+<main>
+
+<section class="tile tile-dark">
+  <div class="wrap">
+    <div class="split split-media-first first">
+      <div>
+        <h2>Twenty-seven ways<br>to blend a coffee.</h2>
+        <p class="lead">Rocky Road. Crème brûlée. Butter pecan white mocha.</p>
+        <p class="sub" style="color: var(--body-muted)">The blended board is the reason people drive in from Mountain House and Lathrop. Every one of them is built to order, and half of them aren't on any other menu in town.</p>
+        <div class="cta-row">
+          <a class="btn btn-ghost-on-dark" href="menu.html#blended">See the blended board</a>
+        </div>
+      </div>
+      <div class="media">
+        <img src="images/drink-iced-latte.jpg" alt="An iced latte in a Barista's cup" width="1200" height="1200" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tile tile-light">
+  <div class="wrap">
+    <div class="split first">
+      <div>
+        <h2>The panini press<br>never cools down.</h2>
+        <p class="lead">Grilled ciabatta, pesto mayo, pepper jack.</p>
+        <p class="sub">Ten panini, twelve bagel sandwiches, and a breakfast list that runs from open until the bread's gone. Everything is pressed after you order it, which is why the line moves the way it does.</p>
+        <div class="cta-row">
+          <a class="btn" href="https://order.online/store/baristas-coffee-house-tracy-1250787">Order ahead</a>
+          <a class="btn btn-ghost" href="menu.html#panini">See the food menu</a>
+        </div>
+      </div>
+      <div class="media">
+        <img src="images/panini-ham-turkey.jpg" alt="A pressed panini with ham, turkey and cheddar, cut in half on parchment" width="1200" height="1200" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tile tile-dark-2">
+  <div class="wrap narrow">
+    <h2>Four point six, and holding.</h2>
+    <p class="sub" style="color: var(--body-muted)">Across Google, Yelp and every delivery app it's been listed on, Barista's has never dropped below 4.6 stars — over eleven thousand ratings and counting. That is not a marketing number. That is the same people coming back.</p>
+    <div class="quotes">
+      <div>
+        <p class="quote">Open at 7</p>
+        <cite>Monday through Saturday, no exceptions</cite>
+      </div>
+      <div>
+        <p class="quote">151 things on the menu</p>
+        <cite>And staff who remember which one is yours</cite>
+      </div>
+      <div>
+        <p class="quote">One location</p>
+        <cite>112 West 10th. There is no second Barista's.</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tile tile-light">
+  <div class="wrap">
+    <div class="split split-media-first first">
+      <div>
+        <h2>Order at the boards.<br>Sit by the window.</h2>
+        <p class="lead">Chalk menus, wood tables, and a patio on 10th.</p>
+        <p class="sub">The whole menu is up on the boards behind the counter, written by hand and changed when it needs changing. Grab a table inside, or take one of the two-tops out front and watch downtown wake up.</p>
+        <div class="cta-row">
+          <a class="btn btn-ghost" href="#visit">Get directions</a>
+        </div>
+      </div>
+      <div class="media">
+        <img src="images/interior-menu-boards.jpg" alt="The counter at Barista's with hand-written chalk menu boards on the wall" width="800" height="600" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tile tile-parchment" id="visit">
+  <div class="wrap">
+    <h2>Visit</h2>
+    <p class="lead">On the corner of 10th and Central, downtown Tracy.</p>
+
+    <div class="visit">
+      <div class="hours">
+        <p class="kicker">Hours</p>
+        <p class="status" data-status><span class="dot"></span><span data-status-text></span></p>
+        <div class="rows" data-hours-table>
+          <div class="row" data-day="1"><span>Monday</span><span>7:00am – 4:00pm</span></div>
+          <div class="row" data-day="2"><span>Tuesday</span><span>7:00am – 4:00pm</span></div>
+          <div class="row" data-day="3"><span>Wednesday</span><span>7:00am – 4:00pm</span></div>
+          <div class="row" data-day="4"><span>Thursday</span><span>7:00am – 4:00pm</span></div>
+          <div class="row" data-day="5"><span>Friday</span><span>7:00am – 4:00pm</span></div>
+          <div class="row" data-day="6"><span>Saturday</span><span>7:00am – 3:00pm</span></div>
+          <div class="row is-closed-day" data-day="0"><span>Sunday</span><span>Closed</span></div>
+        </div>
+      </div>
+
+      <div class="find">
+        <img src="images/storefront.jpg" alt="The Barista's storefront on West 10th Street — green awning, window decal and patio tables out front" width="800" height="600" loading="lazy">
+        <p class="kicker">Find us</p>
+        <address>112 W 10th St<br>Tracy, CA 95376</address>
+        <p class="sub">Look for the awning on the corner. The patio two-tops are right out front, and the door is on 10th.</p>
+        <div class="actions">
+          <a class="btn btn-sm" href="https://www.google.com/maps/search/?api=1&amp;query=Barista%27s+112+W+10th+St+Tracy+CA+95376">Directions</a>
+          <a class="btn btn-sm btn-ghost" href="tel:+12098306050">(209) 830-6050</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="visit-order">
+      <div>
+        <h3>Order ahead</h3>
+        <p>Skip the line at the counter. Pickup orders are waiting inside.</p>
+      </div>
+      <div class="actions">
+        <a class="btn" href="https://order.online/store/baristas-coffee-house-tracy-1250787">Pickup</a>
+        <a class="btn btn-ghost" href="https://www.doordash.com/store/baristas-coffee-house-tracy-1250787/">Delivery</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-cols">
+      <div>
+        <h4>Barista's</h4>
+        <ul>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="#visit">Hours &amp; directions</a></li>
+          <li><a href="tel:+12098306050">(209) 830-6050</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Order</h4>
+        <ul>
+          <li><a href="https://order.online/store/baristas-coffee-house-tracy-1250787">Pickup</a></li>
+          <li><a href="https://www.doordash.com/store/baristas-coffee-house-tracy-1250787/">DoorDash</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Find us</h4>
+        <ul>
+          <li>112 W 10th St</li>
+          <li>Tracy, CA 95376</li>
+          <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Barista%27s+112+W+10th+St+Tracy+CA+95376">Google Maps</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="legal">Barista's Coffee House · 112 W 10th St, Tracy, CA 95376 · Open Monday–Friday 7am–4pm, Saturday 7am–3pm, closed Sunday.</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
