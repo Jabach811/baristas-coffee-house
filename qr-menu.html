@@ -1,0 +1,710 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Order · Barista's Coffee House</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23d9541e'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='Arial' font-weight='900' font-size='28' fill='white'%3EB%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="order-pad.css">
+  <style>
+    :root{
+      --accent:#d9541e;--accent-deep:#a83c10;--ink:#16130f;--bg:#f7f3ea;
+      --muted:#6f665a;--line:#ddd3c2;
+      --body:"Inter",Arial,sans-serif;
+
+      --pad-bar-bg:var(--accent);--pad-bar-ink:#fff;
+      --pad-accent:var(--accent);--pad-accent-ink:#fff;--pad-accent-deep:var(--ink);
+      --pad-accent-soft:#f6e3d5;
+      --pad-panel-bg:#fbf8f2;--pad-panel-ink:var(--ink);
+      --pad-panel-border:1px solid var(--line);
+      --pad-line:#ddd3c2;--pad-line-soft:#ede7db;--pad-muted:var(--muted);
+      --pad-ink:var(--ink);--pad-ink-ink:#fff;
+      --pad-badge-bg:var(--ink);--pad-badge-ink:#fff;
+      --pad-chip-bg:rgba(255,255,255,.25);
+      --pad-hand-bg:#0b0906;--pad-hand-ink:#fbf8f2;--pad-hand-sub:#c9c0b2;--pad-hand-num:#f2793f;
+      --pad-display:var(--body);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5}
+    main,.howto,footer{max-width:640px;margin-inline:auto;padding-inline:18px}
+
+    .top{position:sticky;top:0;z-index:40;background:var(--bg);border-bottom:1px solid var(--line)}
+    .top__in{max-width:640px;margin-inline:auto;padding:12px 18px;display:flex;align-items:center;gap:11px}
+    .seal{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--accent);color:#fff;font:800 20px/1 var(--body);transform:rotate(-6deg)}
+    .brand b{display:block;font:800 19px/1.1 var(--body);letter-spacing:-.01em}
+    .brand small{display:block;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+    .howto{margin:18px auto 0;color:var(--muted);font-size:14px}
+
+    section{margin-top:34px}
+    section:last-of-type{margin-bottom:40px}
+    .sec__title{position:sticky;top:68px;z-index:30;background:var(--bg);padding-block:8px;font:800 26px/1 var(--body);letter-spacing:-.02em;margin:0}
+    .sec__sub{margin:6px 0 0;font-size:14px;color:var(--muted)}
+    .sub__title{margin:22px 0 0;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+    .item{background:#fff;border:1px solid var(--line);padding:14px 16px;margin-top:10px}
+    .item__top{display:flex;align-items:baseline;gap:10px}
+    .item__top h3{font-size:16px;font-weight:700;margin:0}
+    .item__top .leader{flex:1;border-bottom:1px dotted #b3a893;transform:translateY(-4px)}
+    .item__top .price{font-size:15px;font-weight:800;color:var(--accent);white-space:nowrap}
+    .item p{margin:6px 0 0;font-size:13.5px;color:var(--muted)}
+
+    .qty{justify-content:flex-end}
+    .qty__add{width:auto;min-width:136px;height:44px;font-size:15px;padding:0 26px;box-shadow:0 4px 0 var(--ink)}
+    .qty__add:active{box-shadow:0 1px 0 var(--ink)}
+    .qty__step{width:auto;gap:12px;height:44px}
+
+    footer{margin-top:10px;padding-bottom:28px;font-size:12px;color:var(--muted)}
+    body.has-pad footer{padding-bottom:0}
+
+    .pad__coin--emoji{font-size:21px;background:#f1ead9}
+    .pad-sheet__coin.pad__coin--emoji{font-size:26px}
+    .pad-fly--emoji{display:grid;place-items:center;font-size:24px;background:#f1ead9}
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="top__in">
+      <span class="seal" aria-hidden="true">B</span>
+      <div class="brand"><b>Barista's</b><small>Good Friends, Great Coffee</small></div>
+    </div>
+  </header>
+
+  <p class="howto">Build your order while you wait, then show your phone at the counter. Nothing is sent anywhere — it's just your list, added up.</p>
+
+  <main>
+    <section>
+      <h2 class="sec__title">Blended</h2>
+      <p class="sec__sub">Twenty-seven drinks off the big board, every one built to order in the blender.</p>
+      <article class="item" data-order data-icon="dirty-derrick" data-name-en="Dirty Derrick">
+        <div class="item__top"><h3>Dirty Derrick</h3><span class="leader"></span><b class="price">$5.55</b></div>
+        <p>Peanut butter and banana mocha — the house favorite</p>
+      </article>
+      <article class="item" data-order data-icon="derrick" data-name-en="Derrick">
+        <div class="item__top"><h3>Derrick</h3><span class="leader"></span><b class="price">$5.50</b></div>
+        <p>Peanut butter and banana with mixed chocolate</p>
+      </article>
+      <article class="item" data-order data-icon="dirty-derrick" data-name-en="Dirty Derrick + Protein">
+        <div class="item__top"><h3>Dirty Derrick + Protein</h3><span class="leader"></span><b class="price">$6.00</b></div>
+        <p>Peanut butter and banana mocha with protein</p>
+      </article>
+      <article class="item" data-order data-icon="derrick" data-name-en="Derrick + Protein">
+        <div class="item__top"><h3>Derrick + Protein</h3><span class="leader"></span><b class="price">$5.55</b></div>
+        <p>Peanut butter and banana mocha with protein</p>
+      </article>
+      <article class="item" data-order data-icon="rocky-road-b" data-name-en="Rocky Road">
+        <div class="item__top"><h3>Rocky Road</h3><span class="leader"></span><b class="price">$5.50</b></div>
+        <p>Toasted marshmallow and hazelnut with dark chocolate</p>
+      </article>
+      <article class="item" data-order data-icon="creme-brulee-b" data-name-en="Crème Brûlée Mocha">
+        <div class="item__top"><h3>Crème Brûlée Mocha</h3><span class="leader"></span><b class="price">$5.50</b></div>
+        <p>Caramel and hazelnut mocha</p>
+      </article>
+      <article class="item" data-order data-icon="caramel-crunch" data-name-en="Caramel Crunch">
+        <div class="item__top"><h3>Caramel Crunch</h3><span class="leader"></span><b class="price">$5.50</b></div>
+        <p>Caramel sauce with coffee toffee and dark chocolate mocha</p>
+      </article>
+      <article class="item" data-order data-icon="caramel-sensation-b" data-name-en="Caramel Sensation">
+        <div class="item__top"><h3>Caramel Sensation</h3><span class="leader"></span><b class="price">$5.50</b></div>
+        <p>Caramel mocha</p>
+      </article>
+      <article class="item" data-order data-icon="snicker-bar-b" data-name-en="Snicker Bar Mocha">
+        <div class="item__top"><h3>Snicker Bar Mocha</h3><span class="leader"></span><b class="price">$5.95</b></div>
+        <p>Chocolate, caramel and peanut, blended</p>
+      </article>
+      <article class="item" data-order data-icon="butterfinger" data-name-en="Butterfinger Mocha">
+        <div class="item__top"><h3>Butterfinger Mocha</h3><span class="leader"></span><b class="price">$5.50</b></div>
+        <p>Toffee nut, caramel, butterscotch and peanut butter</p>
+      </article>
+      <article class="item" data-order data-icon="peanut-butter-bliss" data-name-en="Peanut Butter Bliss">
+        <div class="item__top"><h3>Peanut Butter Bliss</h3><span class="leader"></span><b class="price">$5.95</b></div>
+        <p>Blended mocha with caramel and peanut butter</p>
+      </article>
+      <article class="item" data-order data-icon="coffee-toffee-crunch" data-name-en="Coffee Toffee Crunch">
+        <div class="item__top"><h3>Coffee Toffee Crunch</h3><span class="leader"></span><b class="price">$5.50</b></div>
+        <p>Coffee and toffee, blended over ice</p>
+      </article>
+      <article class="item" data-order data-icon="double-chocolate-truffle" data-name-en="Double Chocolate Truffle">
+        <div class="item__top"><h3>Double Chocolate Truffle</h3><span class="leader"></span><b class="price">$5.50</b></div>
+        <p>Twice the chocolate, blended thick</p>
+      </article>
+      <article class="item" data-order data-icon="dark-chocolate-mocha-b" data-name-en="Dark Chocolate Mocha">
+        <div class="item__top"><h3>Dark Chocolate Mocha</h3><span class="leader"></span><b class="price">$5.75</b></div>
+        <p>Made from dark chocolate powder</p>
+      </article>
+      <article class="item" data-order data-icon="white-mocha-b" data-name-en="White Chocolate Mocha">
+        <div class="item__top"><h3>White Chocolate Mocha</h3><span class="leader"></span><b class="price">$5.55</b></div>
+        <p>Made with white chocolate powder</p>
+      </article>
+      <article class="item" data-order data-icon="blended-mocha" data-name-en="Blended Mocha">
+        <div class="item__top"><h3>Blended Mocha</h3><span class="leader"></span><b class="price">$5.50</b></div>
+        <p>The classic, straight up</p>
+      </article>
+      <article class="item" data-order data-icon="mexican-mocha" data-name-en="Mexican Mocha">
+        <div class="item__top"><h3>Mexican Mocha</h3><span class="leader"></span><b class="price">$5.50</b></div>
+        <p>Chocolate with warm spice</p>
+      </article>
+      <article class="item" data-order data-icon="toasted-almond-b" data-name-en="Toasted Almond Mocha">
+        <div class="item__top"><h3>Toasted Almond Mocha</h3><span class="leader"></span><b class="price">$5.55</b></div>
+        <p>Almond and chocolate, blended</p>
+      </article>
+      <article class="item" data-order data-icon="coconut-almond" data-name-en="Coconut Almond Mocha">
+        <div class="item__top"><h3>Coconut Almond Mocha</h3><span class="leader"></span><b class="price">$5.50</b></div>
+        <p>Coconut and almond over chocolate</p>
+      </article>
+      <article class="item" data-order data-icon="coconut-craze" data-name-en="Coconut Craze">
+        <div class="item__top"><h3>Coconut Craze</h3><span class="leader"></span><b class="price">$5.50</b></div>
+        <p>Coconut chocolate mocha</p>
+      </article>
+      <article class="item" data-order data-icon="hawaiian-banana-nut" data-name-en="Hawaiian Banana Nut White Mocha">
+        <div class="item__top"><h3>Hawaiian Banana Nut White Mocha</h3><span class="leader"></span><b class="price">$5.50</b></div>
+        <p>Banana, vanilla and hazelnut flavored white mocha</p>
+      </article>
+      <article class="item" data-order data-icon="blackberry-vanilla" data-name-en="Blackberry Vanilla White Mocha">
+        <div class="item__top"><h3>Blackberry Vanilla White Mocha</h3><span class="leader"></span><b class="price">$5.50</b></div>
+        <p>Blackberry and vanilla over white chocolate</p>
+      </article>
+      <article class="item" data-order data-icon="snowflake" data-name-en="Snowflake">
+        <div class="item__top"><h3>Snowflake</h3><span class="leader"></span><b class="price">$5.95</b></div>
+        <p>Peppermint flavored white mocha with coffee beans</p>
+      </article>
+      <article class="item" data-order data-icon="frosted-latte" data-name-en="Frosted Latte">
+        <div class="item__top"><h3>Frosted Latte</h3><span class="leader"></span><b class="price">$5.50</b></div>
+        <p>Espresso and milk, blended clean</p>
+      </article>
+      <article class="item" data-order data-icon="skinny-dip-latte" data-name-en="Skinny Dip Latte">
+        <div class="item__top"><h3>Skinny Dip Latte</h3><span class="leader"></span><b class="price">$5.95</b></div>
+        <p>Sugar free powder plus espresso</p>
+      </article>
+      <article class="item" data-order data-icon="exotic-spiced-chai" data-name-en="Exotic Spiced Chai">
+        <div class="item__top"><h3>Exotic Spiced Chai</h3><span class="leader"></span><b class="price">$6.00</b></div>
+        <p>Tiger Spice chai powder</p>
+      </article>
+      <article class="item" data-order data-icon="flamingo-chai" data-name-en="Flamingo Sugar Free Chai">
+        <div class="item__top"><h3>Flamingo Sugar Free Chai</h3><span class="leader"></span><b class="price">$6.00</b></div>
+        <p>Sugar free chai, blended</p>
+      </article>
+    </section>
+
+    <section>
+      <h2 class="sec__title">Iced Drinks</h2>
+      <p class="sec__sub">Poured over ice. Milk-based drinks ask which milk you want.</p>
+      <h3 class="sub__title">Iced lattes &amp; cold brew</h3>
+      <article class="item" data-order data-icon="iced-latte" data-name-en="Iced Latte">
+        <div class="item__top"><h3>Iced Latte</h3><span class="leader"></span><b class="price">$3.75</b></div>
+      </article>
+      <article class="item" data-order data-icon="iced-latte" data-name-en="Iced Latte with Flavor">
+        <div class="item__top"><h3>Iced Latte with Flavor</h3><span class="leader"></span><b class="price">$4.55</b></div>
+        <p>Choose your flavor at the counter</p>
+      </article>
+      <article class="item" data-order data-icon="in-the-raw" data-name-en="Iced Latte in the Raw">
+        <div class="item__top"><h3>Iced Latte in the Raw</h3><span class="leader"></span><b class="price">$4.55</b></div>
+        <p>Latte with honey and raw sugar</p>
+      </article>
+      <article class="item" data-order data-icon="sicilian-latte" data-name-en="Iced Sicilian Latte">
+        <div class="item__top"><h3>Iced Sicilian Latte</h3><span class="leader"></span><b class="price">$4.55</b></div>
+        <p>Caramel and hazelnut latte</p>
+      </article>
+      <article class="item" data-order data-icon="iced-latte" data-name-en="Iced Cold Brew">
+        <div class="item__top"><h3>Iced Cold Brew</h3><span class="leader"></span><b class="price">$3.95</b></div>
+        <p>With choice of milk and espresso shots</p>
+      </article>
+      <article class="item" data-order data-icon="espresso" data-name-en="Iced Americano">
+        <div class="item__top"><h3>Iced Americano</h3><span class="leader"></span><b class="price">$2.95</b></div>
+      </article>
+      <h3 class="sub__title">Iced mochas</h3>
+      <article class="item" data-order data-icon="iced-mocha" data-name-en="Iced Mocha">
+        <div class="item__top"><h3>Iced Mocha</h3><span class="leader"></span><b class="price">$5.00</b></div>
+      </article>
+      <article class="item" data-order data-icon="caramel-sensation" data-name-en="Caramel Sensation">
+        <div class="item__top"><h3>Caramel Sensation</h3><span class="leader"></span><b class="price">$5.00</b></div>
+        <p>Caramel mocha</p>
+      </article>
+      <article class="item" data-order data-icon="white-mocha" data-name-en="White Mocha">
+        <div class="item__top"><h3>White Mocha</h3><span class="leader"></span><b class="price">$5.00</b></div>
+        <p>Made with white chocolate powder</p>
+      </article>
+      <article class="item" data-order data-icon="dark-chocolate-mocha" data-name-en="Dark Chocolate Mocha">
+        <div class="item__top"><h3>Dark Chocolate Mocha</h3><span class="leader"></span><b class="price">$5.00</b></div>
+      </article>
+      <article class="item" data-order data-icon="mocha-valencia" data-name-en="Mocha Valencia">
+        <div class="item__top"><h3>Mocha Valencia</h3><span class="leader"></span><b class="price">$5.00</b></div>
+        <p>Orange flavored mocha</p>
+      </article>
+      <article class="item" data-order data-icon="cafe-barista" data-name-en="Cafe Barista">
+        <div class="item__top"><h3>Cafe Barista</h3><span class="leader"></span><b class="price">$5.00</b></div>
+        <p>Vanilla and hazelnut mocha</p>
+      </article>
+      <article class="item" data-order data-icon="toasted-almond" data-name-en="Toasted Almond Mocha">
+        <div class="item__top"><h3>Toasted Almond Mocha</h3><span class="leader"></span><b class="price">$5.00</b></div>
+      </article>
+      <article class="item" data-order data-icon="creme-brulee" data-name-en="Crème Brûlée">
+        <div class="item__top"><h3>Crème Brûlée</h3><span class="leader"></span><b class="price">$5.00</b></div>
+        <p>Caramel and hazelnut mocha</p>
+      </article>
+      <article class="item" data-order data-icon="rocky-road" data-name-en="Rocky Road">
+        <div class="item__top"><h3>Rocky Road</h3><span class="leader"></span><b class="price">$5.00</b></div>
+        <p>Toasted marshmallow, hazelnut and dark chocolate truffle powder</p>
+      </article>
+      <article class="item" data-order data-icon="snicker-bar" data-name-en="Snicker Bar Mocha">
+        <div class="item__top"><h3>Snicker Bar Mocha</h3><span class="leader"></span><b class="price">$5.00</b></div>
+      </article>
+      <article class="item" data-order data-icon="black-and-white" data-name-en="Black and White Mocha">
+        <div class="item__top"><h3>Black and White Mocha</h3><span class="leader"></span><b class="price">$5.00</b></div>
+        <p>Blend of dark and white chocolate</p>
+      </article>
+      <h3 class="sub__title">Iced chai &amp; matcha</h3>
+      <article class="item" data-order data-icon="iced-chai" data-name-en="Iced Chai">
+        <div class="item__top"><h3>Iced Chai</h3><span class="leader"></span><b class="price">$5.00</b></div>
+        <p>Made from Tiger Spice chai powder</p>
+      </article>
+      <article class="item" data-order data-icon="iced-chai" data-name-en="Iced Dirty Chai">
+        <div class="item__top"><h3>Iced Dirty Chai</h3><span class="leader"></span><b class="price">$5.50</b></div>
+        <p>Iced chai with espresso</p>
+      </article>
+      <article class="item" data-order data-icon="iced-chai" data-name-en="Iced Mocha Chai">
+        <div class="item__top"><h3>Iced Mocha Chai</h3><span class="leader"></span><b class="price">$5.50</b></div>
+      </article>
+      <article class="item" data-order data-icon="iced-chai" data-name-en="Iced Sugar-free Chai">
+        <div class="item__top"><h3>Iced Sugar-free Chai</h3><span class="leader"></span><b class="price">$5.00</b></div>
+        <p>Made from sugar free Flamingo chai powder</p>
+      </article>
+      <article class="item" data-order data-icon="iced-chai" data-name-en="Iced Green Tea Matcha">
+        <div class="item__top"><h3>Iced Green Tea Matcha</h3><span class="leader"></span><b class="price">$5.25</b></div>
+        <p>Choose your flavor at the counter</p>
+      </article>
+      <h3 class="sub__title">Iced teas</h3>
+      <article class="item" data-order data-icon="iced-tea" data-name-en="Iced Black Tea">
+        <div class="item__top"><h3>Iced Black Tea</h3><span class="leader"></span><b class="price">$2.00</b></div>
+      </article>
+      <article class="item" data-order data-icon="iced-tea" data-name-en="Iced Black Tea with Flavor">
+        <div class="item__top"><h3>Iced Black Tea with Flavor</h3><span class="leader"></span><b class="price">$2.95</b></div>
+        <p>Choose your flavor at the counter</p>
+      </article>
+      <article class="item" data-order data-icon="iced-tea" data-name-en="Iced Green Tea">
+        <div class="item__top"><h3>Iced Green Tea</h3><span class="leader"></span><b class="price">$2.50</b></div>
+      </article>
+      <article class="item" data-order data-icon="iced-tea" data-name-en="Iced Green Tea with Flavor">
+        <div class="item__top"><h3>Iced Green Tea with Flavor</h3><span class="leader"></span><b class="price">$2.95</b></div>
+        <p>Choose your flavor at the counter</p>
+      </article>
+      <article class="item" data-order data-icon="iced-tea" data-name-en="Power Black Iced Tea">
+        <div class="item__top"><h3>Power Black Iced Tea</h3><span class="leader"></span><b class="price">$2.75</b></div>
+        <p>Choose your powered flavor</p>
+      </article>
+      <article class="item" data-order data-icon="iced-tea" data-name-en="Power Green Iced Tea">
+        <div class="item__top"><h3>Power Green Iced Tea</h3><span class="leader"></span><b class="price">$2.95</b></div>
+        <p>Choose your powered flavor</p>
+      </article>
+    </section>
+
+    <section>
+      <h2 class="sec__title">Hot Drinks</h2>
+      <p class="sec__sub">Espresso pulled to order; drip stays fresh in the airpots all morning.</p>
+      <h3 class="sub__title">Hot coffee &amp; espresso</h3>
+      <article class="item" data-order data-icon="espresso" data-name-en="Hot Coffee">
+        <div class="item__top"><h3>Hot Coffee</h3><span class="leader"></span><b class="price">$1.75</b></div>
+      </article>
+      <article class="item" data-order data-icon="espresso" data-name-en="Jump Start">
+        <div class="item__top"><h3>Jump Start</h3><span class="leader"></span><b class="price">$2.50</b></div>
+        <p>Espresso shot with coffee</p>
+      </article>
+      <article class="item" data-order data-icon="espresso" data-name-en="Americano">
+        <div class="item__top"><h3>Americano</h3><span class="leader"></span><b class="price">$2.50</b></div>
+      </article>
+      <h3 class="sub__title">Hot lattes</h3>
+      <article class="item" data-order data-icon="hot-latte" data-name-en="Regular Latte">
+        <div class="item__top"><h3>Regular Latte</h3><span class="leader"></span><b class="price">$4.00</b></div>
+        <p>Choice of steamed milk with espresso shots</p>
+      </article>
+      <article class="item" data-order data-icon="hot-latte" data-name-en="Latte with Flavor">
+        <div class="item__top"><h3>Latte with Flavor</h3><span class="leader"></span><b class="price">$4.25</b></div>
+        <p>Choose your flavor at the counter</p>
+      </article>
+      <article class="item" data-order data-icon="in-the-raw" data-name-en="Latte in the Raw">
+        <div class="item__top"><h3>Latte in the Raw</h3><span class="leader"></span><b class="price">$4.25</b></div>
+        <p>Latte with honey and raw sugar</p>
+      </article>
+      <article class="item" data-order data-icon="hot-latte" data-name-en="Breve Latte">
+        <div class="item__top"><h3>Breve Latte</h3><span class="leader"></span><b class="price">$4.00</b></div>
+        <p>Latte with half &amp; half, steamed</p>
+      </article>
+      <h3 class="sub__title">Hot mochas</h3>
+      <article class="item" data-order data-icon="hot-mocha" data-name-en="Hot Mocha">
+        <div class="item__top"><h3>Hot Mocha</h3><span class="leader"></span><b class="price">$4.25</b></div>
+      </article>
+      <article class="item" data-order data-icon="caramel-sensation" data-name-en="Caramel Sensation">
+        <div class="item__top"><h3>Caramel Sensation</h3><span class="leader"></span><b class="price">$4.25</b></div>
+        <p>Caramel mocha</p>
+      </article>
+      <article class="item" data-order data-icon="white-mocha" data-name-en="White Mocha">
+        <div class="item__top"><h3>White Mocha</h3><span class="leader"></span><b class="price">$4.00</b></div>
+        <p>Made with white chocolate powder</p>
+      </article>
+      <article class="item" data-order data-icon="dark-chocolate-mocha" data-name-en="Dark Chocolate Mocha">
+        <div class="item__top"><h3>Dark Chocolate Mocha</h3><span class="leader"></span><b class="price">$4.25</b></div>
+        <p>Made from dark chocolate powder</p>
+      </article>
+      <article class="item" data-order data-icon="cafe-barista" data-name-en="Cafe Barista Mocha">
+        <div class="item__top"><h3>Cafe Barista Mocha</h3><span class="leader"></span><b class="price">$4.25</b></div>
+        <p>Vanilla and hazelnut mocha</p>
+      </article>
+      <article class="item" data-order data-icon="mocha-valencia" data-name-en="Mocha Valencia">
+        <div class="item__top"><h3>Mocha Valencia</h3><span class="leader"></span><b class="price">$4.25</b></div>
+        <p>Orange flavored mocha</p>
+      </article>
+      <article class="item" data-order data-icon="toasted-almond" data-name-en="Toasted Almond Mocha">
+        <div class="item__top"><h3>Toasted Almond Mocha</h3><span class="leader"></span><b class="price">$4.25</b></div>
+      </article>
+      <article class="item" data-order data-icon="creme-brulee" data-name-en="Crème Brûlée Mocha">
+        <div class="item__top"><h3>Crème Brûlée Mocha</h3><span class="leader"></span><b class="price">$4.25</b></div>
+        <p>Caramel and hazelnut mocha</p>
+      </article>
+      <article class="item" data-order data-icon="black-and-white" data-name-en="Barista's Black and White">
+        <div class="item__top"><h3>Barista's Black and White</h3><span class="leader"></span><b class="price">$4.25</b></div>
+        <p>Mocha blend of dark and white chocolate</p>
+      </article>
+      <h3 class="sub__title">Hot chocolate &amp; chai</h3>
+      <article class="item" data-order data-icon="hot-chai" data-name-en="Hot Chocolate">
+        <div class="item__top"><h3>Hot Chocolate</h3><span class="leader"></span><b class="price">$4.50</b></div>
+      </article>
+      <article class="item" data-order data-icon="hot-chai" data-name-en="Hot Chai">
+        <div class="item__top"><h3>Hot Chai</h3><span class="leader"></span><b class="price">$4.50</b></div>
+      </article>
+      <article class="item" data-order data-icon="hot-chai" data-name-en="Sugar Free Chai">
+        <div class="item__top"><h3>Sugar Free Chai</h3><span class="leader"></span><b class="price">$4.50</b></div>
+        <p>Sugar free chai powder</p>
+      </article>
+      <article class="item" data-order data-icon="hot-chai" data-name-en="Mocha Chai">
+        <div class="item__top"><h3>Mocha Chai</h3><span class="leader"></span><b class="price">$4.75</b></div>
+      </article>
+      <h3 class="sub__title">Hot tea</h3>
+      <article class="item" data-order data-icon="hot-tea" data-name-en="African Nectar">
+        <div class="item__top"><h3>African Nectar</h3><span class="leader"></span><b class="price">$1.95</b></div>
+      </article>
+      <article class="item" data-order data-icon="hot-tea" data-name-en="Earl Grey">
+        <div class="item__top"><h3>Earl Grey</h3><span class="leader"></span><b class="price">$1.95</b></div>
+      </article>
+      <article class="item" data-order data-icon="hot-tea" data-name-en="Decaf Earl Grey">
+        <div class="item__top"><h3>Decaf Earl Grey</h3><span class="leader"></span><b class="price">$1.95</b></div>
+      </article>
+      <article class="item" data-order data-icon="hot-tea" data-name-en="Ginger Twist">
+        <div class="item__top"><h3>Ginger Twist</h3><span class="leader"></span><b class="price">$1.95</b></div>
+      </article>
+      <article class="item" data-order data-icon="hot-tea" data-name-en="Jasmine Green Tea">
+        <div class="item__top"><h3>Jasmine Green Tea</h3><span class="leader"></span><b class="price">$1.95</b></div>
+      </article>
+      <article class="item" data-order data-icon="hot-tea" data-name-en="Marrakesh Mint">
+        <div class="item__top"><h3>Marrakesh Mint</h3><span class="leader"></span><b class="price">$1.95</b></div>
+      </article>
+      <article class="item" data-order data-icon="hot-tea" data-name-en="Tropical Green Tea">
+        <div class="item__top"><h3>Tropical Green Tea</h3><span class="leader"></span><b class="price">$1.95</b></div>
+      </article>
+      <article class="item" data-order data-icon="hot-tea" data-name-en="White Orchard">
+        <div class="item__top"><h3>White Orchard</h3><span class="leader"></span><b class="price">$1.95</b></div>
+      </article>
+      <h3 class="sub__title">Coffee travelers</h3>
+      <article class="item" data-order data-icon="traveler" data-name-en="Coffee Traveler">
+        <div class="item__top"><h3>Coffee Traveler</h3><span class="leader"></span><b class="price">$19.50</b></div>
+        <p>A box of hot coffee for the office or the field</p>
+      </article>
+      <article class="item" data-order data-icon="traveler" data-name-en="Cups, Sugars &amp; Creamers">
+        <div class="item__top"><h3>Cups, Sugars &amp; Creamers</h3><span class="leader"></span><b class="price">$8.00</b></div>
+      </article>
+      <article class="item" data-order data-icon="traveler" data-name-en="Hot Chocolate Traveler">
+        <div class="item__top"><h3>Hot Chocolate Traveler</h3><span class="leader"></span><b class="price">$22.00</b></div>
+        <p>Water base only</p>
+      </article>
+    </section>
+
+    <section>
+      <h2 class="sec__title">Smoothies &amp; Slushies</h2>
+      <p class="sec__sub">Fruit, yogurt, matcha — blended cold. No coffee required.</p>
+      <article class="item" data-order data-icon="smoothie" data-name-en="Fruit Smoothies">
+        <div class="item__top"><h3>Fruit Smoothies</h3><span class="leader"></span><b class="price">$6.50</b></div>
+        <p>A variety of choices, made on an ice cream or yogurt base</p>
+      </article>
+      <article class="item" data-order data-icon="tropical-island" data-name-en="Tropical Island Smoothie">
+        <div class="item__top"><h3>Tropical Island Smoothie</h3><span class="leader"></span><b class="price">$6.50</b></div>
+        <p>Banana, passion fruit &amp; guava</p>
+      </article>
+      <article class="item" data-order data-icon="oreo-smoothie" data-name-en="Oreo Smoothie">
+        <div class="item__top"><h3>Oreo Smoothie</h3><span class="leader"></span><b class="price">$6.50</b></div>
+        <p>Oreo cookie, blended</p>
+      </article>
+      <article class="item" data-order data-icon="green-tea-smoothie" data-name-en="Green Tea Smoothie">
+        <div class="item__top"><h3>Green Tea Smoothie</h3><span class="leader"></span><b class="price">$6.95</b></div>
+        <p>Green tea matcha powder</p>
+      </article>
+      <article class="item" data-order data-icon="slinger" data-name-en="Slinger">
+        <div class="item__top"><h3>Slinger</h3><span class="leader"></span><b class="price">$5.75</b></div>
+        <p>Fruit slushie with Rockstar</p>
+      </article>
+      <article class="item" data-order data-icon="smoothie" data-name-en="Kids Smoothie">
+        <div class="item__top"><h3>Kids Smoothie</h3><span class="leader"></span><b class="price">$5.75</b></div>
+      </article>
+    </section>
+
+    <section>
+      <h2 class="sec__title">Holiday Specials</h2>
+      <p class="sec__sub">Six hot 20-ounce specials, while they last.</p>
+      <article class="item" data-order data-icon="gingerbread-latte" data-name-en="Gingerbread Latte">
+        <div class="item__top"><h3>Gingerbread Latte</h3><span class="leader"></span><b class="price">$5.95</b></div>
+        <p>20oz, served hot</p>
+      </article>
+      <article class="item" data-order data-icon="jack-frost" data-name-en="Jack Frost White Mocha">
+        <div class="item__top"><h3>Jack Frost White Mocha</h3><span class="leader"></span><b class="price">$5.95</b></div>
+        <p>20oz, served hot</p>
+      </article>
+      <article class="item" data-order data-icon="holly-jolly" data-name-en="Holly Jolly Mocha">
+        <div class="item__top"><h3>Holly Jolly Mocha</h3><span class="leader"></span><b class="price">$5.95</b></div>
+        <p>20oz, served hot</p>
+      </article>
+      <article class="item" data-order data-icon="maple-spice" data-name-en="Maple Spice Latte">
+        <div class="item__top"><h3>Maple Spice Latte</h3><span class="leader"></span><b class="price">$5.95</b></div>
+        <p>20oz, served hot</p>
+      </article>
+      <article class="item" data-order data-icon="merry-mocha-mint" data-name-en="Merry Mocha Mint">
+        <div class="item__top"><h3>Merry Mocha Mint</h3><span class="leader"></span><b class="price">$5.95</b></div>
+        <p>20oz, served hot</p>
+      </article>
+      <article class="item" data-order data-icon="white-christmas" data-name-en="White Christmas">
+        <div class="item__top"><h3>White Christmas</h3><span class="leader"></span><b class="price">$5.95</b></div>
+        <p>20oz, served hot</p>
+      </article>
+    </section>
+
+    <section>
+      <h2 class="sec__title">Panini</h2>
+      <p class="sec__sub">Grilled ciabatta, pressed after you order it.</p>
+      <article class="item" data-order data-icon="panini" data-name-en="Panini">
+        <div class="item__top"><h3>Panini</h3><span class="leader"></span><b class="price">$6.25</b></div>
+        <p>Grilled ciabatta with pesto mayo spread, turkey and pepper jack cheese</p>
+      </article>
+      <article class="item" data-order data-icon="panini" data-name-en="Meat Lover Panini">
+        <div class="item__top"><h3>Meat Lover Panini</h3><span class="leader"></span><b class="price">$8.25</b></div>
+        <p>Pesto mayo, cheddar, pepper jack, ham, salami and turkey</p>
+      </article>
+      <article class="item" data-order data-icon="panini" data-name-en="Spicy Panini">
+        <div class="item__top"><h3>Spicy Panini</h3><span class="leader"></span><b class="price">$6.75</b></div>
+        <p>Turkey, pesto mayo, pepper jack and sriracha chili sauce</p>
+      </article>
+      <article class="item" data-order data-icon="panini" data-name-en="Panini with Jalos and Peps">
+        <div class="item__top"><h3>Panini with Jalos and Peps</h3><span class="leader"></span><b class="price">$6.95</b></div>
+        <p>Pesto mayo, turkey and pepper jack with jalapeños and pepperoncini</p>
+      </article>
+      <article class="item" data-order data-icon="panini" data-name-en="Veggie Panini">
+        <div class="item__top"><h3>Veggie Panini</h3><span class="leader"></span><b class="price">$7.85</b></div>
+        <p>Pesto mayo, pepper jack, tomatoes, cucumber, pickles and pepperoncini</p>
+      </article>
+      <article class="item" data-order data-icon="panini" data-name-en="Veggie Panini plus Sundried Tomatoes">
+        <div class="item__top"><h3>Veggie Panini plus Sundried Tomatoes</h3><span class="leader"></span><b class="price">$8.75</b></div>
+        <p>Pesto mayo, fresh tomatoes, cucumber, pepperoncini, pickles, sundried tomatoes and pepper jack</p>
+      </article>
+      <article class="item" data-order data-icon="panini" data-name-en="Spicy Veggie Panini">
+        <div class="item__top"><h3>Spicy Veggie Panini</h3><span class="leader"></span><b class="price">$8.00</b></div>
+        <p>Tomatoes, cucumber, pickles, pepperoncini, jalapeños, pepper jack, sriracha and pesto mayo</p>
+      </article>
+      <article class="item" data-order data-icon="panini" data-name-en="Spicy Veggie Panini plus Egg Patties">
+        <div class="item__top"><h3>Spicy Veggie Panini plus Egg Patties</h3><span class="leader"></span><b class="price">$8.25</b></div>
+        <p>Pesto mayo, sriracha, tomatoes, cucumber, pepperoncini, jalapeños, pepper jack, pickles and egg</p>
+      </article>
+      <article class="item" data-order data-icon="panini" data-name-en="Grilled Cheese Panini">
+        <div class="item__top"><h3>Grilled Cheese Panini</h3><span class="leader"></span><b class="price">$5.95</b></div>
+        <p>Grilled panini with two cheddar cheese</p>
+      </article>
+      <article class="item" data-order data-icon="panini" data-name-en="Toasted Ciabatta Bun with Cream Cheese &amp; Strawberry Jelly">
+        <div class="item__top"><h3>Toasted Ciabatta Bun with Cream Cheese &amp; Strawberry Jelly</h3><span class="leader"></span><b class="price">$4.95</b></div>
+        <p>Butter, cream cheese &amp; strawberry jam</p>
+      </article>
+    </section>
+
+    <section>
+      <h2 class="sec__title">Bagels &amp; Croissants</h2>
+      <p class="sec__sub">Plain or parmesan, toasted to order.</p>
+      <article class="item" data-order data-icon="bagel" data-name-en="Bagel with Cream Cheese">
+        <div class="item__top"><h3>Bagel with Cream Cheese</h3><span class="leader"></span><b class="price">$5.95</b></div>
+        <p>Toasted bagel with cream cheese spread</p>
+      </article>
+      <article class="item" data-order data-icon="bagel" data-name-en="Bagel Sandwich">
+        <div class="item__top"><h3>Bagel Sandwich</h3><span class="leader"></span><b class="price">$6.75</b></div>
+        <p>Parmesan bagel with pesto mayo, turkey, cheddar and tomato</p>
+      </article>
+      <article class="item" data-order data-icon="bagel" data-name-en="Barista Bagel">
+        <div class="item__top"><h3>Barista Bagel</h3><span class="leader"></span><b class="price">$6.75</b></div>
+        <p>Parmesan bagel with cream cheese, tomatoes, cucumber and salt &amp; pepper</p>
+      </article>
+      <article class="item" data-order data-icon="bagel" data-name-en="Party Bagel">
+        <div class="item__top"><h3>Party Bagel</h3><span class="leader"></span><b class="price">$6.75</b></div>
+        <p>Toasted plain bagel with cream cheese, salami and pepperoncini</p>
+      </article>
+      <article class="item" data-order data-icon="bagel" data-name-en="Meat Lovers on Parmesan Bagel">
+        <div class="item__top"><h3>Meat Lovers on Parmesan Bagel</h3><span class="leader"></span><b class="price">$7.50</b></div>
+        <p>Turkey, ham, salami, pepper jack and cheddar cheese</p>
+      </article>
+      <article class="item" data-order data-icon="bagel" data-name-en="Parm Bagel with Mayo, Mustard, Turkey, Ham, Cucumber &amp; Tomatoes">
+        <div class="item__top"><h3>Parm Bagel with Mayo, Mustard, Turkey, Ham, Cucumber &amp; Tomatoes</h3><span class="leader"></span><b class="price">$6.50</b></div>
+      </article>
+      <article class="item" data-order data-icon="bagel" data-name-en="Plain Bagel with Cream Cheese &amp; Sundried Tomatoes">
+        <div class="item__top"><h3>Plain Bagel with Cream Cheese &amp; Sundried Tomatoes</h3><span class="leader"></span><b class="price">$6.00</b></div>
+      </article>
+      <article class="item" data-order data-icon="bagel" data-name-en="Bagel in a Raw">
+        <div class="item__top"><h3>Bagel in a Raw</h3><span class="leader"></span><b class="price">$5.75</b></div>
+        <p>Plain bagel toasted with butter, honey, cinnamon and raw sugar</p>
+      </article>
+      <article class="item" data-order data-icon="bagel" data-name-en="Dry Toasted Bagel">
+        <div class="item__top"><h3>Dry Toasted Bagel</h3><span class="leader"></span><b class="price">$3.75</b></div>
+        <p>Cream cheese, pesto mayo, jelly or butter on the side</p>
+      </article>
+      <article class="item" data-order data-icon="croissant" data-name-en="Cold Croissant Sandwich">
+        <div class="item__top"><h3>Cold Croissant Sandwich</h3><span class="leader"></span><b class="price">$7.95</b></div>
+        <p>Pesto mayo or mayo mustard, turkey, ham, tomatoes, cucumber, pepper jack, pepperoncini and pickles</p>
+      </article>
+      <article class="item" data-order data-icon="croissant" data-name-en="Ham and Cheese Croissant">
+        <div class="item__top"><h3>Ham and Cheese Croissant</h3><span class="leader"></span><b class="price">$5.00</b></div>
+        <p>Croissant with ham and cheddar cheese</p>
+      </article>
+      <article class="item" data-order data-icon="croissant" data-name-en="Plain Croissant">
+        <div class="item__top"><h3>Plain Croissant</h3><span class="leader"></span><b class="price">$3.50</b></div>
+      </article>
+    </section>
+
+    <section>
+      <h2 class="sec__title">Breakfast</h2>
+      <p class="sec__sub">From open until the bread's gone.</p>
+      <article class="item" data-order data-icon="breakfast" data-name-en="Ciabatta with Egg, Bacon &amp; Melted Cheddar">
+        <div class="item__top"><h3>Ciabatta with Egg, Bacon &amp; Melted Cheddar</h3><span class="leader"></span><b class="price">$5.75</b></div>
+      </article>
+      <article class="item" data-order data-icon="breakfast" data-name-en="Ciabatta with Egg, Ham &amp; Melted Cheddar">
+        <div class="item__top"><h3>Ciabatta with Egg, Ham &amp; Melted Cheddar</h3><span class="leader"></span><b class="price">$5.75</b></div>
+      </article>
+      <article class="item" data-order data-icon="breakfast" data-name-en="Ciabatta with Egg, Bacon, Sausage &amp; Cheddar">
+        <div class="item__top"><h3>Ciabatta with Egg, Bacon, Sausage &amp; Cheddar</h3><span class="leader"></span><b class="price">$6.75</b></div>
+        <p>Sriracha hot sauce on request for 50 cents more</p>
+      </article>
+      <article class="item" data-order data-icon="breakfast" data-name-en="Ciabatta with Bacon, Egg &amp; Sausage, Pesto Mayo &amp; Cheddar">
+        <div class="item__top"><h3>Ciabatta with Bacon, Egg &amp; Sausage, Pesto Mayo &amp; Cheddar</h3><span class="leader"></span><b class="price">$6.95</b></div>
+      </article>
+      <article class="item" data-order data-icon="breakfast" data-name-en="Ciabatta with Sriracha, Jalapeños, Egg, Bacon, Sausage &amp; Cheddar">
+        <div class="item__top"><h3>Ciabatta with Sriracha, Jalapeños, Egg, Bacon, Sausage &amp; Cheddar</h3><span class="leader"></span><b class="price">$6.75</b></div>
+      </article>
+      <article class="item" data-order data-icon="breakfast" data-name-en="Hot Croissant with Egg, Bacon &amp; Melted Cheddar">
+        <div class="item__top"><h3>Hot Croissant with Egg, Bacon &amp; Melted Cheddar</h3><span class="leader"></span><b class="price">$6.25</b></div>
+      </article>
+      <article class="item" data-order data-icon="breakfast" data-name-en="Hot Croissant with Egg, Ham &amp; Melted Cheddar">
+        <div class="item__top"><h3>Hot Croissant with Egg, Ham &amp; Melted Cheddar</h3><span class="leader"></span><b class="price">$6.25</b></div>
+      </article>
+      <article class="item" data-order data-icon="breakfast" data-name-en="Hot Croissant with Egg, Sausage, Bacon &amp; Cheddar">
+        <div class="item__top"><h3>Hot Croissant with Egg, Sausage, Bacon &amp; Cheddar</h3><span class="leader"></span><b class="price">$6.50</b></div>
+      </article>
+      <article class="item" data-order data-icon="breakfast" data-name-en="Parmesan Bagel with Pesto Mayo, Bacon, Egg, Sausage &amp; Cheddar">
+        <div class="item__top"><h3>Parmesan Bagel with Pesto Mayo, Bacon, Egg, Sausage &amp; Cheddar</h3><span class="leader"></span><b class="price">$6.95</b></div>
+      </article>
+      <article class="item" data-order data-icon="breakfast" data-name-en="Parmesan Bagel with Pesto Mayo, Jalapeños, Egg, Ham &amp; Cheddar">
+        <div class="item__top"><h3>Parmesan Bagel with Pesto Mayo, Jalapeños, Egg, Ham &amp; Cheddar</h3><span class="leader"></span><b class="price">$6.95</b></div>
+      </article>
+      <article class="item" data-order data-icon="breakfast" data-name-en="Plain Bagel with Cheddar, Egg, Bacon &amp; Sausage">
+        <div class="item__top"><h3>Plain Bagel with Cheddar, Egg, Bacon &amp; Sausage</h3><span class="leader"></span><b class="price">$6.95</b></div>
+        <p>Butter, mayo, cream cheese or pesto mayo optional — 50 cent add-on</p>
+      </article>
+      <article class="item" data-order data-icon="breakfast" data-name-en="Plain Bagel with Pesto Mayo, Sriracha, Sausage, Egg, Bacon &amp; Pepper Jack">
+        <div class="item__top"><h3>Plain Bagel with Pesto Mayo, Sriracha, Sausage, Egg, Bacon &amp; Pepper Jack</h3><span class="leader"></span><b class="price">$6.95</b></div>
+      </article>
+    </section>
+
+    <section>
+      <h2 class="sec__title">Pastries &amp; Snacks</h2>
+      <p class="sec__sub">From the case up front. Items with nuts say so.</p>
+      <h3 class="sub__title">Pastries</h3>
+      <article class="item" data-order data-icon="pastry" data-name-en="Cinnamon Rolls">
+        <div class="item__top"><h3>Cinnamon Rolls</h3><span class="leader"></span><b class="price">$4.50</b></div>
+        <p>A 6.5oz roll. Contains traces of peanut.</p>
+      </article>
+      <article class="item" data-order data-icon="pastry" data-name-en="Blueberry Scones">
+        <div class="item__top"><h3>Blueberry Scones</h3><span class="leader"></span><b class="price">$3.75</b></div>
+      </article>
+      <article class="item" data-order data-icon="pastry" data-name-en="Cheese Danish">
+        <div class="item__top"><h3>Cheese Danish</h3><span class="leader"></span><b class="price">$3.75</b></div>
+      </article>
+      <article class="item" data-order data-icon="pastry" data-name-en="Chocolate Brownie">
+        <div class="item__top"><h3>Chocolate Brownie</h3><span class="leader"></span><b class="price">$4.00</b></div>
+      </article>
+      <article class="item" data-order data-icon="pastry" data-name-en="Chocolate Chip Muffins">
+        <div class="item__top"><h3>Chocolate Chip Muffins</h3><span class="leader"></span><b class="price">$3.00</b></div>
+      </article>
+      <article class="item" data-order data-icon="pastry" data-name-en="Blueberry Muffins">
+        <div class="item__top"><h3>Blueberry Muffins</h3><span class="leader"></span><b class="price">$3.00</b></div>
+      </article>
+      <article class="item" data-order data-icon="pastry" data-name-en="Banana Nut Muffin">
+        <div class="item__top"><h3>Banana Nut Muffin</h3><span class="leader"></span><b class="price">$3.00</b></div>
+      </article>
+      <article class="item" data-order data-icon="pastry" data-name-en="NY Crumb Cake">
+        <div class="item__top"><h3>NY Crumb Cake</h3><span class="leader"></span><b class="price">$3.75</b></div>
+        <p>No trace of nuts</p>
+      </article>
+      <article class="item" data-order data-icon="pastry" data-name-en="Lemon Pound Cake">
+        <div class="item__top"><h3>Lemon Pound Cake</h3><span class="leader"></span><b class="price">$3.75</b></div>
+      </article>
+      <article class="item" data-order data-icon="pastry" data-name-en="Marble Sliced Cake">
+        <div class="item__top"><h3>Marble Sliced Cake</h3><span class="leader"></span><b class="price">$3.75</b></div>
+      </article>
+      <article class="item" data-order data-icon="pastry" data-name-en="Raspberry Ripple Cake">
+        <div class="item__top"><h3>Raspberry Ripple Cake</h3><span class="leader"></span><b class="price">$4.25</b></div>
+      </article>
+      <article class="item" data-order data-icon="pastry" data-name-en="Pumpkin Chocolate Chip Cake">
+        <div class="item__top"><h3>Pumpkin Chocolate Chip Cake</h3><span class="leader"></span><b class="price">$4.95</b></div>
+        <p>Contains eggs and nuts</p>
+      </article>
+      <article class="item" data-order data-icon="pastry" data-name-en="Pumpkin Cream Cheese Cupcake">
+        <div class="item__top"><h3>Pumpkin Cream Cheese Cupcake</h3><span class="leader"></span><b class="price">$5.75</b></div>
+      </article>
+      <article class="item" data-order data-icon="pastry" data-name-en="Salted Caramel Cheesecake Pecan Pie Bar">
+        <div class="item__top"><h3>Salted Caramel Cheesecake Pecan Pie Bar</h3><span class="leader"></span><b class="price">$7.00</b></div>
+        <p>Contains nuts &amp; seeds</p>
+      </article>
+      <article class="item" data-order data-icon="pastry" data-name-en="Apricot Bar">
+        <div class="item__top"><h3>Apricot Bar</h3><span class="leader"></span><b class="price">$4.00</b></div>
+      </article>
+      <article class="item" data-order data-icon="pastry" data-name-en="Coffee Streusel">
+        <div class="item__top"><h3>Coffee Streusel</h3><span class="leader"></span><b class="price">$4.00</b></div>
+        <p>Contains nuts &amp; seeds — walnut, nutmeg</p>
+      </article>
+      <h3 class="sub__title">Snacks</h3>
+      <article class="item" data-order data-icon="snack" data-name-en="Chocolate Chip Cookies">
+        <div class="item__top"><h3>Chocolate Chip Cookies</h3><span class="leader"></span><b class="price">$0.75</b></div>
+      </article>
+      <article class="item" data-order data-icon="snack" data-name-en="Madeleines">
+        <div class="item__top"><h3>Madeleines</h3><span class="leader"></span><b class="price">$0.80</b></div>
+        <p>Soft and moist, individually wrapped</p>
+      </article>
+      <article class="item" data-order data-icon="snack" data-name-en="Rice Crispy Marshmallow">
+        <div class="item__top"><h3>Rice Crispy Marshmallow</h3><span class="leader"></span><b class="price">$3.95</b></div>
+        <p>Brown sugar and sea salt. Gluten free.</p>
+      </article>
+      <article class="item" data-order data-icon="snack" data-name-en="Granola Oat Jacks">
+        <div class="item__top"><h3>Granola Oat Jacks</h3><span class="leader"></span><b class="price">$3.95</b></div>
+        <p>Oats, walnut, honey, coconut, craisins, sunflower and sesame seeds</p>
+      </article>
+      <article class="item" data-order data-icon="snack" data-name-en="Bag of Potato Chips">
+        <div class="item__top"><h3>Bag of Potato Chips</h3><span class="leader"></span><b class="price">$2.00</b></div>
+        <p>Vickies — jalapeño, BBQ, sea salt, salt and vinegar, or dill pickle</p>
+      </article>
+      <article class="item" data-order data-icon="snack" data-name-en="Banana">
+        <div class="item__top"><h3>Banana</h3><span class="leader"></span><b class="price">$1.00</b></div>
+      </article>
+      <article class="item" data-order data-icon="snack" data-name-en="Apple">
+        <div class="item__top"><h3>Apple</h3><span class="leader"></span><b class="price">$2.75</b></div>
+      </article>
+    </section>
+  </main>
+
+  <footer>Prototype — prices from the online ordering menu, standard size. Larger sizes and add-ons run a little more; the boards are the final word.</footer>
+
+  <script src="pad-content.js"></script>
+  <script src="order-pad.js"></script>
+</body>
+</html>

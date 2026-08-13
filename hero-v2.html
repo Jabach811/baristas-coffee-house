@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barista's — Hero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #d9541e;
+    --primary-focus: #e8632b;
+    --cream: #fbf2e0;
+    --r-pill: 9999px;
+    --font: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--cream);
+    font-family: var(--font);
+  }
+  .hero {
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .stage {
+    position: relative;
+    width: min(100vw, calc(100svh * 1.7556));
+    aspect-ratio: 1264 / 720;
+  }
+  .stage video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent), linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent), linear-gradient(to bottom, transparent, #000 4%, #000 96%, transparent);
+    mask-composite: intersect;
+  }
+  .logo {
+    position: absolute;
+    left: 6%;
+    top: 9%;
+    width: 41%;
+    mix-blend-mode: multiply;
+    opacity: 0;
+    transition: opacity 1.4s ease;
+  }
+  .cta-row {
+    position: absolute;
+    left: 6%;
+    top: 52%;
+    width: 41%;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity 0.7s ease 1.2s, transform 0.7s ease 1.2s, visibility 0s 1.2s;
+  }
+  .revealed .logo {
+    opacity: 1;
+  }
+  .revealed .cta-row {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .instant .logo,
+  .instant .cta-row {
+    transition: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .logo, .cta-row { transition: none; }
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 11px 22px;
+    border: 1px solid transparent;
+    border-radius: var(--r-pill);
+    background: var(--primary);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.15s ease;
+  }
+  .btn:active { transform: scale(0.95); }
+  .btn:focus-visible { outline: 2px solid var(--primary-focus); outline-offset: 2px; }
+  .btn-ghost {
+    background: transparent;
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+  @media (max-width: 620px) {
+    .hero {
+      min-height: 0;
+      padding: 22px 0 30px;
+    }
+    .stage {
+      width: 100%;
+      aspect-ratio: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .stage video {
+      position: relative;
+      inset: auto;
+      order: 2;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      max-height: calc(100svh - 310px);
+      object-fit: cover;
+      object-position: 92% center;
+    }
+    .logo {
+      position: relative;
+      inset: auto;
+      order: 1;
+      width: 74%;
+      max-width: 300px;
+    }
+    .cta-row {
+      position: relative;
+      inset: auto;
+      order: 3;
+      width: 100%;
+      padding: 0 20px;
+      margin-top: 4px;
+    }
+  }
+</style>
+</head>
+<body>
+<section class="hero">
+  <div class="stage" id="stage">
+    <video id="heroVid" src="assets/Baristas Hero Vid.mp4" muted autoplay playsinline preload="auto"></video>
+    <img class="logo" src="assets/hero-logo-clean.png" alt="Barista's — Good Friends, Great Coffee">
+    <div class="cta-row">
+      <a class="btn" href="https://order.online/store/baristas-coffee-house-tracy-1250787">Order ahead</a>
+      <a class="btn btn-ghost" href="menu.html">See the menu</a>
+    </div>
+  </div>
+</section>
+<script>
+  const vid = document.getElementById("heroVid");
+  const stage = document.getElementById("stage");
+
+  const reveal = () => {
+    stage.classList.add("revealed");
+    sessionStorage.setItem("heroSeen", "1");
+  };
+  const showLastFrame = () => {
+    vid.pause();
+    if (vid.readyState >= 1) vid.currentTime = vid.duration;
+    else vid.addEventListener("loadedmetadata", () => { vid.currentTime = vid.duration; }, { once: true });
+  };
+
+  const skipIntro = sessionStorage.getItem("heroSeen")
+    || matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (skipIntro) {
+    stage.classList.add("instant");
+    showLastFrame();
+    reveal();
+  } else {
+    vid.addEventListener("ended", () => setTimeout(reveal, 300));
+    vid.addEventListener("error", reveal);
+    vid.play().catch(reveal);
+    const failsafe = setTimeout(reveal, 8000);
+    vid.addEventListener("ended", () => clearTimeout(failsafe));
+    stage.addEventListener("pointerdown", () => {
+      if (stage.classList.contains("revealed")) return;
+      clearTimeout(failsafe);
+      showLastFrame();
+      reveal();
+    });
+  }
+</script>
+</body>
+</html>

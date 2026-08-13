@@ -1,0 +1,363 @@
+/*
+  Order pad — structure only. Every colour, radius and shadow comes from a
+  --pad-* variable, so each page can dress it in its own palette without
+  touching this file. Defaults below match the main menu page.
+*/
+:root {
+  --pad-bar-bg: #B93318;
+  --pad-bar-ink: #FFF3E2;
+  --pad-bar-border: 0;
+  --pad-bar-radius: 22px;
+  --pad-shadow: 0 8px 26px rgba(60, 25, 10, .32);
+
+  --pad-chip-bg: rgba(255, 243, 226, .2);
+  --pad-badge-bg: #22170E;
+  --pad-badge-ink: #FFF3E2;
+
+  --pad-panel-bg: #FFFCF6;
+  --pad-panel-ink: #22170E;
+  --pad-panel-border: 1px solid #E2D3B8;
+  --pad-panel-radius: 20px;
+  --pad-line: #E2D3B8;
+  --pad-line-soft: #F0E4CE;
+  --pad-muted: #6A5644;
+
+  --pad-accent: #B93318;
+  --pad-accent-ink: #FFF3E2;
+  --pad-accent-deep: #8E2611;   /* the 3px lip under a pressed button */
+  --pad-accent-soft: #F5E3D6;
+
+  --pad-ink: #22170E;
+  --pad-ink-ink: #FDF6E9;
+  --pad-hand-bg: #1E140B;
+  --pad-hand-ink: #FFF7E9;
+  --pad-hand-sub: #E0CFB6;
+  --pad-hand-num: #E08A1E;
+
+  --pad-display: inherit;
+}
+
+/* ── The control the script drops into every orderable row ──── */
+.qty { display: flex; align-items: center; margin-top: 8px; }
+.qty__add {
+  appearance: none;
+  width: 100%; height: 48px;
+  border: 0; border-radius: 999px;
+  background: var(--pad-accent); color: var(--pad-accent-ink);
+  font: inherit; font-size: 17px; font-weight: 800;
+  box-shadow: 0 3px 0 var(--pad-accent-deep);
+  cursor: pointer;
+}
+.qty__add:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--pad-accent-deep); }
+.qty__step {
+  display: flex; align-items: center; justify-content: space-between; gap: 6px;
+  width: 100%; height: 48px; padding: 0 5px;
+  border: 2px solid var(--pad-accent); border-radius: 999px;
+}
+.qty__step button {
+  appearance: none;
+  width: 38px; height: 38px;
+  border: 0; border-radius: 999px;
+  background: var(--pad-accent-soft); color: var(--pad-accent);
+  font: inherit; font-size: 22px; line-height: 1;
+  cursor: pointer;
+}
+.qty__step [data-step="1"] { background: var(--pad-accent); color: var(--pad-accent-ink); }
+.qty__n {
+  min-width: 24px; text-align: center;
+  font-family: var(--pad-display); font-size: 20px; font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+/* Nothing ordered yet: one wide target. After that: the stepper. */
+.qty--empty .qty__step, .qty:not(.qty--empty) .qty__add { display: none; }
+
+/* Inside a Small/Large band there is no room for a word — just the +. */
+.qty--inline { margin-top: 0; width: auto; }
+.qty--inline .qty__add { width: 48px; height: 48px; font-size: 26px; }
+.qty--inline .qty__step { width: auto; }
+
+/* Buttons wiggle when tapped. Small, and off if the phone asks for less. */
+@keyframes pad-wiggle {
+  0%, 100% { transform: rotate(0) scale(1); }
+  30% { transform: rotate(-6deg) scale(.93); }
+  65% { transform: rotate(5deg) scale(1.06); }
+}
+.qty--inline .qty__add:active, .qty__step button:active { animation: pad-wiggle .22s ease; }
+
+/* A display: rule beats [hidden]'s default, so say it explicitly. */
+.pad[hidden], .pad__tabs[hidden], .pad__panel[hidden],
+.pad-sheet[hidden], .pad-hand[hidden] { display: none; }
+
+/* ── The bar ─────────────────────────────────────────────────── */
+.pad { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; padding: 0 16px 12px; }
+.pad > * { max-width: 880px; margin-inline: auto; }
+body.has-pad { padding-bottom: 120px; }
+body.pad-locked { overflow: hidden; }
+
+.pad__tabs { display: flex; gap: 6px; padding: 0 8px; overflow-x: auto; scrollbar-width: none; }
+.pad__tabs::-webkit-scrollbar { width: 0; height: 0; }
+.pad__tab {
+  appearance: none; flex: 0 0 auto;
+  padding: 7px 13px;
+  border: 0; border-radius: 14px 14px 0 0;
+  background: color-mix(in srgb, var(--pad-line) 70%, transparent);
+  color: var(--pad-muted);
+  font: inherit; font-size: 13px; font-weight: 700;
+  cursor: pointer;
+}
+.pad__tab.is-on { background: var(--pad-bar-bg); color: var(--pad-bar-ink); }
+.pad__tab--new { font-size: 16px; font-weight: 800; padding: 7px 13px; }
+
+.pad__bar {
+  appearance: none;
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  width: 100%;
+  padding: 12px 18px 12px 12px;
+  border: var(--pad-bar-border);
+  border-radius: var(--pad-bar-radius);
+  background: var(--pad-bar-bg);
+  color: var(--pad-bar-ink);
+  box-shadow: var(--pad-shadow);
+  font: inherit;
+  cursor: pointer;
+}
+.pad__total { flex: 0 0 auto; font-family: var(--pad-display); font-size: 24px; font-weight: 400; }
+
+.pad__icons { display: flex; align-items: center; gap: 8px; min-width: 0; overflow: hidden; }
+.pad__chip { position: relative; flex: 0 0 auto; width: 38px; height: 38px; }
+.pad__coin {
+  display: block; width: 38px; height: 38px;
+  border-radius: 999px; object-fit: cover;
+  background: var(--pad-chip-bg);
+}
+.pad__coin--text {
+  display: grid; place-items: center;
+  font-family: var(--pad-display); font-size: 15px;
+}
+/* The newest item wears a ring, so you can see what just landed. */
+.pad__chip--new-item .pad__coin { box-shadow: 0 0 0 2px var(--pad-bar-ink); }
+.pad__chip b {
+  position: absolute; right: -4px; bottom: -4px;
+  min-width: 19px; height: 19px; padding: 0 5px;
+  border-radius: 999px;
+  background: var(--pad-badge-bg); color: var(--pad-badge-ink);
+  font-size: 12px; font-weight: 800;
+  line-height: 19px; text-align: center;
+}
+.pad__chip--more {
+  display: grid; place-items: center;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--pad-bar-ink) 16%, transparent);
+  font-family: var(--pad-display); font-size: 13px;
+}
+
+/* Only chips that just landed on the bar animate — the rest sit still. */
+@keyframes pad-chip-pop {
+  from { transform: scale(.3) rotate(-16deg); opacity: 0; }
+  60%  { transform: scale(1.12) rotate(4deg); opacity: 1; }
+  to   { transform: scale(1) rotate(0); opacity: 1; }
+}
+.pad__chip--new { animation: pad-chip-pop .34s cubic-bezier(.2, .9, .3, 1.4); }
+
+/* The coin that flies from the button into the bar. */
+.pad-fly {
+  position: fixed; z-index: 90;
+  width: 38px; height: 38px;
+  border-radius: 999px; object-fit: cover;
+  pointer-events: none;
+  transition: transform .46s cubic-bezier(.4, .05, .6, 1), opacity .46s ease;
+}
+
+/* ── The panel ───────────────────────────────────────────────── */
+.pad__panel {
+  margin-bottom: 8px;
+  padding: 18px;
+  background: var(--pad-panel-bg);
+  color: var(--pad-panel-ink);
+  border: var(--pad-panel-border);
+  border-radius: var(--pad-panel-radius);
+  box-shadow: var(--pad-shadow);
+  max-height: 66svh; overflow-y: auto;
+}
+@keyframes pad-rise { from { transform: translateY(18px); opacity: 0; } to { transform: none; opacity: 1; } }
+.pad__panel:not([hidden]) { animation: pad-rise .22s cubic-bezier(.2, .9, .3, 1.1); }
+
+.pad__head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.pad__title { font-family: var(--pad-display); font-size: 20px; font-weight: 400; }
+.pad__clear {
+  appearance: none; flex: 0 0 auto;
+  padding: 8px 12px;
+  border: 1px solid var(--pad-line); border-radius: 999px;
+  background: none; color: var(--pad-muted);
+  font: inherit; font-size: 13px; font-weight: 600;
+  white-space: nowrap; cursor: pointer;
+}
+
+.pad__list { list-style: none; margin: 12px 0 0; padding: 0; }
+.pad__list li {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid var(--pad-line-soft);
+}
+.pad__list .pad__coin { flex: 0 0 auto; }
+.pad__name { flex: 1; min-width: 0; font-size: 16px; font-weight: 700; }
+.pad__name em { display: block; font-style: normal; font-size: 13px; font-weight: 400; color: var(--pad-muted); }
+.pad__line { font-family: var(--pad-display); font-size: 17px; font-weight: 400; }
+.pad__drop {
+  appearance: none; flex: 0 0 auto;
+  width: 32px; height: 32px;
+  border: 1px solid var(--pad-line); border-radius: 999px;
+  background: none; color: var(--pad-muted);
+  font: inherit; font-size: 18px; line-height: 1;
+  cursor: pointer;
+}
+.pad__drop:hover, .pad__drop:active { color: var(--pad-panel-ink); }
+
+.pad__sum {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  margin: 12px 0 0; padding-top: 12px;
+  border-top: 2px solid var(--pad-line);
+  font-family: var(--pad-display); font-size: 18px; font-weight: 400;
+}
+.pad__sum b { font-family: var(--pad-display); font-size: 34px; font-weight: 400; color: var(--pad-accent); }
+
+.pad__show {
+  appearance: none;
+  margin-top: 14px; width: 100%; height: 56px;
+  border: 0; border-radius: 999px;
+  background: var(--pad-ink); color: var(--pad-ink-ink);
+  font: inherit; font-size: 18px; font-weight: 800;
+  cursor: pointer;
+}
+.pad__show:active { transform: translateY(1px); }
+
+/* ── Flavor sheet ────────────────────────────────────────────── */
+.pad-sheet { position: fixed; inset: 0; z-index: 70; display: flex; align-items: flex-end; }
+.pad-sheet__scrim { position: absolute; inset: 0; background: rgba(30, 20, 11, .42); }
+.pad-sheet__card {
+  position: relative;
+  width: 100%; max-width: 880px; margin-inline: auto;
+  margin-bottom: 12px;
+  padding: 18px;
+  /* Flavour + size + extras is a tall card. On a short screen it scrolls
+     inside itself rather than pushing the Add button off the top. */
+  max-height: calc(100svh - 24px);
+  overflow-y: auto;
+  background: var(--pad-panel-bg);
+  color: var(--pad-panel-ink);
+  border: var(--pad-panel-border);
+  border-radius: var(--pad-panel-radius);
+  box-shadow: var(--pad-shadow);
+  animation: pad-rise .22s cubic-bezier(.2, .9, .3, 1.1);
+}
+.pad-sheet { padding: 0 16px; }
+.pad-sheet__head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.pad-sheet__q { font-family: var(--pad-display); font-size: 20px; font-weight: 400; }
+.pad-sheet__what { font-size: 13px; color: var(--pad-muted); }
+
+.pad-sheet__flavors { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+.pad-sheet__flavor {
+  appearance: none;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 10px 4px;
+  border: 2px solid var(--pad-line); border-radius: 14px;
+  background: var(--pad-panel-bg); color: var(--pad-panel-ink);
+  font: inherit; font-size: 14px; font-weight: 700;
+  cursor: pointer;
+}
+.pad-sheet__flavor.is-on {
+  border-color: var(--pad-accent);
+  background: color-mix(in srgb, var(--pad-accent) 8%, var(--pad-panel-bg));
+}
+.pad-sheet__coin { width: 46px; height: 46px; border-radius: 999px; object-fit: cover; display: block; }
+
+.pad-sheet__label {
+  margin: 14px 0 0;
+  font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--pad-muted);
+}
+.pad-sheet__extras,
+.pad-sheet__sizes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.pad-sheet__extras[hidden],
+.pad-sheet__sizes[hidden] { display: none; }
+.pad-sheet__extra,
+.pad-sheet__size {
+  appearance: none;
+  padding: 9px 14px;
+  border: 2px solid var(--pad-line); border-radius: 999px;
+  background: var(--pad-panel-bg); color: var(--pad-panel-ink);
+  font: inherit; font-size: 14px; font-weight: 700;
+  cursor: pointer;
+}
+.pad-sheet__extra.is-on,
+.pad-sheet__size.is-on { border-color: var(--pad-accent); background: var(--pad-accent); color: var(--pad-accent-ink); }
+/* The price rides along with the size name, a shade quieter. */
+.pad-sheet__size b { margin-left: 8px; font-weight: 800; opacity: .72; }
+
+.pad-sheet__go {
+  appearance: none;
+  margin-top: 16px; width: 100%; height: 56px;
+  border: 0; border-radius: 999px;
+  background: var(--pad-accent); color: var(--pad-accent-ink);
+  font: inherit; font-size: 18px; font-weight: 800;
+  box-shadow: 0 3px 0 var(--pad-accent-deep);
+  cursor: pointer;
+}
+.pad-sheet__go:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--pad-accent-deep); }
+
+/* ── Hand-off screen ─────────────────────────────────────────── */
+.pad-hand {
+  position: fixed; inset: 0; z-index: 80;
+  display: flex; flex-direction: column;
+  background: var(--pad-hand-bg); color: var(--pad-hand-ink);
+  animation: pad-rise .22s cubic-bezier(.2, .9, .3, 1.1);
+}
+.pad-hand__top {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 22px 22px 14px;
+  border-bottom: 1px solid rgba(255, 247, 233, .18);
+}
+.pad-hand__for {
+  font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--pad-hand-ink) 65%, transparent);
+}
+.pad-hand__no { font-family: var(--pad-display); font-size: 18px; font-weight: 400; color: var(--pad-hand-num); }
+
+.pad-hand__list { flex: 1; overflow-y: auto; }
+.pad-hand__row {
+  display: flex; align-items: center; gap: 16px;
+  padding: 18px 22px;
+  border-bottom: 1px solid rgba(255, 247, 233, .12);
+  max-width: 880px; margin-inline: auto; width: 100%;
+}
+.pad-hand__row b {
+  flex: 0 0 auto; min-width: 44px;
+  font-family: var(--pad-display); font-size: 34px; font-weight: 400;
+  color: var(--pad-hand-num);
+}
+.pad-hand__row i { display: block; font-style: normal; font-family: var(--pad-display); font-size: 25px; line-height: 1.1; }
+.pad-hand__row em { display: block; margin-top: 4px; font-style: normal; font-size: 17px; color: var(--pad-hand-sub); }
+
+.pad-hand__sum {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  padding: 18px 22px;
+  background: var(--pad-accent); color: var(--pad-accent-ink);
+}
+.pad-hand__sum span { font-size: 15px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; opacity: .85; }
+.pad-hand__sum b { font-family: var(--pad-display); font-size: 44px; font-weight: 400; }
+
+.pad-hand__back {
+  appearance: none;
+  width: 100%; padding: 16px;
+  border: 0;
+  background: color-mix(in srgb, var(--pad-hand-bg) 80%, #000);
+  color: color-mix(in srgb, var(--pad-hand-ink) 65%, transparent);
+  font: inherit; font-size: 15px; font-weight: 700;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pad__chip--new, .pad__panel:not([hidden]), .pad-sheet__card, .pad-hand,
+  .qty--inline .qty__add:active, .qty__step button:active { animation: none; }
+  .pad-fly { display: none; }
+}
