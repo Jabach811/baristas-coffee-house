@@ -12,8 +12,7 @@ await mkdir(client, { recursive: true });
 await mkdir(server, { recursive: true });
 await mkdir(hosting, { recursive: true });
 
-await copyFile(path.join(root, "index-v2.html"), path.join(client, "index.html"));
-for (const file of ["menu.html", "styles.css", "script.js"]) {
+for (const file of ["index.html", "menu.html", "styles.css", "script.js"]) {
   await copyFile(path.join(root, file), path.join(client, file));
 }
 for (const folder of ["assets", "images"]) {
@@ -33,4 +32,4 @@ for (const required of [
   await access(path.join(dist, required));
 }
 
-console.log("Barista's Sites bundle built with index-v2.html as /index.html");
+console.log("Barista's Sites bundle built");
