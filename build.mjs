@@ -12,7 +12,7 @@ await mkdir(client, { recursive: true });
 await mkdir(server, { recursive: true });
 await mkdir(hosting, { recursive: true });
 
-for (const file of ["index.html", "menu.html", "styles.css", "script.js"]) {
+for (const file of ["index.html", "menu.html", "styles.css", "script.js", "home.css", "home.js"]) {
   await copyFile(path.join(root, file), path.join(client, file));
 }
 for (const folder of ["assets", "images"]) {
